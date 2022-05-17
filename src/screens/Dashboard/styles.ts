@@ -53,7 +53,7 @@ export const UserName = styled.Text`
   color: ${({theme}) => theme.colors.shape};
 
   font-size: ${RFValue(12)}px;
-  font-family: 'Poppins-Bold';
+  font-family: ${({theme}) => theme.poppins.bold};
 `;
 
 export const Icon = styled(Feather)`

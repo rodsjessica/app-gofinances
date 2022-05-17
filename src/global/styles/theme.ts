@@ -16,7 +16,13 @@ export default {
     shape: '#FFFFFF',
     title: '#363F5F',
     text: '#969CB2',
+    text_dark: '#000000',
     background: '#F0F2F5',
   },
   fonts: configureFonts(),
+  poppins: {
+    bold: 'Poppins-Bold',
+    medium: 'Poppins-Medium',
+    regular: 'Poppins-Regular',
+  },
 };
