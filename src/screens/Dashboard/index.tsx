@@ -1,4 +1,5 @@
 import React from 'react';
+import {StatusBar} from 'react-native';
 import {HighlightCard} from '../../components/HighlightCard';
 
 import {
@@ -11,11 +12,13 @@ import {
   UserGreeting,
   UserName,
   Icon,
+  HighlightCards,
 } from './styles';
 
 export function Dashboard() {
   return (
     <Container>
+      <StatusBar barStyle={'dark-content'} backgroundColor={'#5636D3'} />
       <Header>
         <UserWrapper>
           <UserInfo>
@@ -33,8 +36,11 @@ export function Dashboard() {
           <Icon name="power" />
         </UserWrapper>
       </Header>
-
-      <HighlightCard />
+      <HighlightCards>
+        <HighlightCard />
+        <HighlightCard />
+        <HighlightCard />
+      </HighlightCards>
     </Container>
   );
 }
