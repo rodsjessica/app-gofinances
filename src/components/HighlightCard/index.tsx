@@ -17,6 +17,7 @@ interface IHighlightCardProps {
   lastTransaction: string;
 }
 
+//teste
 export const HighlightCard: React.FC<IHighlightCardProps> = ({
   type,
   title,
