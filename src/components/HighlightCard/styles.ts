@@ -19,7 +19,9 @@ export const Header = styled.View`
 `;
 
 export const Title = styled.Text`
-  font-family: ${({theme}) => theme.poppins.regular};
+  color: ${({theme}) => theme.colors.text_dark};
+
+  font-family: ${({theme}) => theme.poppins.medium};
   font-size: ${RFValue(14)}px;
 
   color: ${({theme}) => theme.colors.text_dark};

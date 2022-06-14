@@ -48,7 +48,7 @@ export const UserGreeting = styled.Text`
   color: ${({theme}) => theme.colors.shape};
 
   font-size: ${RFValue(12)}px;
-  font-family: 'Poppins-Regular';
+  font-family: ${({theme}) => theme.poppins.regular};
 `;
 export const UserName = styled.Text`
   color: ${({theme}) => theme.colors.shape};
@@ -72,4 +72,19 @@ export const HighlightCards = styled.ScrollView.attrs({
   position: absolute;
 
   margin-top: ${RFPercentage(20)}px;
+`;
+
+export const Transactions = styled.View`
+  flex: 1;
+  padding: 0 24px;
+
+  margin-top: ${RFPercentage(12)}px;
+`;
+export const Title = styled.Text`
+  color: ${({theme}) => theme.colors.text_dark};
+
+  font-family: ${({theme}) => theme.poppins.medium};
+  font-size: ${RFValue(18)}px;
+
+  margin-bottom: 16px;
 `;
