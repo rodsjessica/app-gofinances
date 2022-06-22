@@ -1,7 +1,10 @@
 import React from 'react';
 import {StatusBar} from 'react-native';
 import {HighlightCard} from '../../components/HighlightCard';
-import { TransactionCard } from '../../components/TransactionCard';
+import {
+  TransactionCard,
+  TransactionCardProps,
+} from '../../components/TransactionCard';
 
 import {
   Container,
@@ -16,9 +19,49 @@ import {
   HighlightCards,
   Transactions,
   Title,
+  TransactionList,
 } from './styles';
 
+export interface DataListProps extends TransactionCardProps {
+  id: any;
+}
+
 export function Dashboard() {
+  const data: DataListProps[] = [
+    {
+      id: '1',
+      type: 'positive',
+      title: 'Desenvolvimento de site',
+      amount: 'R$ 12.000,00',
+      category: {
+        name: 'Vendas',
+        icon: 'dollar-sign',
+      },
+      date: '20/06/2022',
+    },
+    {
+      id: '2',
+      type: 'negative',
+      title: 'Hamburgueria Nina',
+      amount: 'R$ 59,00',
+      category: {
+        name: 'Alimentação',
+        icon: 'coffee',
+      },
+      date: '18/06/2022',
+    },
+    {
+      id: '3',
+      type: 'negative',
+      title: 'ALuguel do Apartamento',
+      amount: 'R$ 1.200,00',
+      category: {
+        name: 'Casa',
+        icon: 'shopping-bag',
+      },
+      date: '19/06/2022',
+    },
+  ];
   return (
     <Container>
       <StatusBar barStyle={'dark-content'} backgroundColor={'#5636D3'} />
@@ -61,7 +104,11 @@ export function Dashboard() {
       </HighlightCards>
       <Transactions>
         <Title>Listagem</Title>
-        <TransactionCard />
+        <TransactionList
+          data={data}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => <TransactionCard data={item} />}
+        />
       </Transactions>
     </Container>
   );
