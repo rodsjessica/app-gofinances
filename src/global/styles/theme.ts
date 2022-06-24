@@ -1,5 +1,3 @@
-import {configureFonts} from 'react-native-paper';
-
 export default {
   colors: {
     primary: '#5636D3',
@@ -19,7 +17,6 @@ export default {
     text_dark: '#000000',
     background: '#F0F2F5',
   },
-  fonts: configureFonts(),
   poppins: {
     bold: 'Poppins-Bold',
     medium: 'Poppins-Medium',
