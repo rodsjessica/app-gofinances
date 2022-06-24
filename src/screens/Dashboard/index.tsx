@@ -1,5 +1,4 @@
 import React from 'react';
-import {StatusBar} from 'react-native';
 import {HighlightCard} from '../../components/HighlightCard';
 import {
   TransactionCard,
@@ -64,7 +63,6 @@ export function Dashboard() {
   ];
   return (
     <Container>
-      <StatusBar barStyle={'dark-content'} backgroundColor={'#5636D3'} />
       <Header>
         <UserWrapper>
           <UserInfo>
