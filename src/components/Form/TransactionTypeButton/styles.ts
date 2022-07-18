@@ -4,7 +4,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {RFValue} from 'react-native-responsive-fontsize';
 
 export const Container = styled(TouchableOpacity)`
-  width: 100%;
+  width: 48%;
 
   flex-direction: row;
   justify-content: center;
@@ -13,7 +13,7 @@ export const Container = styled(TouchableOpacity)`
   border: 1.5px solid ${({theme}) => theme.colors.text};
   border-radius: 5px;
 
-  padding: 16px 59px;
+  padding: 16px;
 `;
 
 export const Icon = styled(Feather)`
