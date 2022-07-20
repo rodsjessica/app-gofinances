@@ -15,7 +15,7 @@ interface IProps extends TouchableOpacityProps {
 export function TransactionTypeButton({title, type, ...rest}: IProps) {
   return (
     <Container {...rest}>
-      <Icon name={icons[type]} />
+      <Icon name={icons[type]} type={type} />
       <Title>{title}</Title>
     </Container>
   );
