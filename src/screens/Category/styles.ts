@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {RFValue} from 'react-native-responsive-fontsize';
+import Feather from 'react-native-vector-icons/Feather';
 
 export const Container = styled.View`
   flex: 1;
@@ -21,3 +22,11 @@ export const Title = styled.Text`
   font-size: ${RFValue(18)}px;
   color: ${({theme}) => theme.colors.shape};
 `;
+export const CategoryItem = styled.View`
+  flex: 1;
+  width: 100%;
+`;
+
+export const Icon = styled(Feather)``;
+
+export const Name = styled.Text``;
