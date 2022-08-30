@@ -1,7 +1,17 @@
 import React from 'react';
 import {FlatList} from 'react-native';
 import {categories} from '../../utils/categories';
-import {Container, Header, Title, CategoryItem, Icon, Name} from './styles';
+import {Button} from '../../components/Button';
+import {
+  Container,
+  Header,
+  Title,
+  CategoryItem,
+  Icon,
+  Name,
+  Separator,
+  Footer,
+} from './styles';
 
 interface CategoryProps {
   key: string;
@@ -29,7 +39,11 @@ export function Category({category, setCategory, closeSelectCategory}: IProps) {
             <Name>{item.name}</Name>
           </CategoryItem>
         )}
+        ItemSeparatorComponent={() => <Separator />}
       />
+      <Footer>
+        <Button title={'Selecionar'} />
+      </Footer>
     </Container>
   );
 }
