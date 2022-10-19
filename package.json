@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.9.9",
     "@react-navigation/native": "^6.0.13",
     "install": "^0.13.0",
     "link": "^1.4.1",
@@ -19,7 +20,8 @@
     "react-native-paper": "^4.12.0",
     "react-native-responsive-fontsize": "^0.5.1",
     "react-native-vector-icons": "^9.1.0",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
