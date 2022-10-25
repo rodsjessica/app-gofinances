@@ -4,14 +4,14 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Dashboard} from '../screens/Dashboard';
 import {Register} from '../screens/Register';
 
-const {Navigator, Screen} = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 export const AppRoutes = () => {
   return (
-    <Navigator>
-      <Screen name="Listagem" component={Dashboard} />
-      <Screen name="Cadastrar" component={Register} />
-      <Screen name="Resumo" component={Register} />
-    </Navigator>
+    <Tab.Navigator screenOptions={{headerShown: false}}>
+      <Tab.Screen name="Listagem" component={Dashboard} />
+      <Tab.Screen name="Cadastrar" component={Register} />
+      <Tab.Screen name="Resumo" component={Register} />
+    </Tab.Navigator>
   );
 };
