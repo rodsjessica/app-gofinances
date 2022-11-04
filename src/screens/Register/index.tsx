@@ -5,9 +5,9 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {useForm} from 'react-hook-form';
 
 import {InputForm} from '../../components/Form/InputForm';
-import {Button} from '../../components/Button';
 import {TransactionTypeButton} from '../../components/Form/TransactionTypeButton';
 import {CategorySelect} from '../../components/Form/CategorySelect';
+import {Button} from '../../components/Form/Button';
 
 import {
   Container,
