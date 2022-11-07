@@ -3,11 +3,14 @@ import {Modal, TouchableWithoutFeedback, Keyboard, Alert} from 'react-native';
 import * as Yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useForm} from 'react-hook-form';
+// import {useNavigation} from '@react-navigation/native';
 
 import {InputForm} from '../../components/Form/InputForm';
 import {TransactionTypeButton} from '../../components/Form/TransactionTypeButton';
 import {CategorySelect} from '../../components/Form/CategorySelect';
 import {Button} from '../../components/Form/Button';
+
+import {Category} from '../Category';
 
 import {
   Container,
@@ -17,7 +20,6 @@ import {
   Fields,
   TransactionTypes,
 } from './styles';
-import {Category} from '../Category';
 
 interface FormData {
   name: string;
@@ -39,6 +41,8 @@ export function Register() {
   });
   const [transactionType, setTransactionType] = useState('');
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+
+  // const navigation = useNavigation();
 
   const {
     control,
@@ -77,7 +81,7 @@ export function Register() {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Container>
         <Header>
           <Title>Cadastro</Title>
@@ -116,6 +120,7 @@ export function Register() {
             </TransactionTypes>
 
             <CategorySelect
+              testID="button-category-select"
               title={category.name}
               onPress={handleOpenSelectCategoryModal}
             />
@@ -124,7 +129,7 @@ export function Register() {
           <Button title="Enviar" onPress={handleSubmit(handleRegister)} />
         </Form>
 
-        <Modal visible={categoryModalOpen}>
+        <Modal testID="modal-category" visible={categoryModalOpen}>
           <Category
             category={category}
             setCategory={setCategory}
