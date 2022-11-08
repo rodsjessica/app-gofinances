@@ -2,6 +2,10 @@ import styled from 'styled-components/native';
 import Feather from 'react-native-vector-icons/Feather';
 import {RFValue} from 'react-native-responsive-fontsize';
 
+interface TransactionProps {
+  type: 'positive' | 'negative';
+}
+
 export const Container = styled.View`
   background-color: ${({theme}) => theme.colors.shape};
 
@@ -27,8 +31,10 @@ export const Title = styled.Text`
   color: ${({theme}) => theme.colors.text_dark};
 `;
 
-export const Icon = styled(Feather)`
+export const Icon = styled(Feather)<TransactionProps>`
   font-size: ${RFValue(40)}px;
+  color: ${({theme, type}) =>
+    type === 'positive' ? theme.colors.sucess : theme.colors.attention};
 `;
 
 export const Footer = styled.View``;

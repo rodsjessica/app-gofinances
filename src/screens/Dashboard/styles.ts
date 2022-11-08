@@ -3,6 +3,7 @@ import {FlatList} from 'react-native';
 import {RFPercentage, RFValue} from 'react-native-responsive-fontsize';
 import Feather from 'react-native-vector-icons/Feather';
 import {DataListProps} from './index';
+import {DataCardProps} from './index';
 
 export const Container = styled.View`
   flex: 1;
@@ -64,7 +65,9 @@ export const Icon = styled(Feather)`
   font-size: ${RFValue(24)}px;
 `;
 
-export const HighlightCards = styled.ScrollView.attrs({
+export const HighlightCards = styled(
+  FlatList as new () => FlatList<DataCardProps>,
+).attrs({
   horizontal: true,
   showsHorizontalScrollIndicator: false,
   contentContainerStyle: {paddingHorizontal: 24},

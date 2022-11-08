@@ -10,30 +10,29 @@ import {
   LastTransaction,
 } from './styles';
 
-interface IHighlightCardProps {
-  type: string;
+export interface IHighlightCardProps {
+  typeIcon: string;
+  type: 'positive' | 'negative';
   title: string;
   amount: string;
   lastTransaction: string;
 }
 
-//teste
-export const HighlightCard: React.FC<IHighlightCardProps> = ({
-  type,
-  title,
-  amount,
-  lastTransaction,
-}) => {
+export interface Props {
+  data: IHighlightCardProps;
+}
+
+export function HighlightCard({data}: Props) {
   return (
     <Container>
       <Header>
-        <Title>{title}</Title>
-        <Icon name={type} />
+        <Title>{data.title}</Title>
+        <Icon name={data.typeIcon} type={data.type} />
       </Header>
 
       <Footer>
-        <Amount>{amount}</Amount>
-        <LastTransaction>{lastTransaction}</LastTransaction>
+        <Amount>{data.amount}</Amount>
+        <LastTransaction>{data.lastTransaction}</LastTransaction>
       </Footer>
     </Container>
   );
