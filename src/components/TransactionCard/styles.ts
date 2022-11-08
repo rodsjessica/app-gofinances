@@ -25,6 +25,7 @@ export const Amount = styled.Text<TransactionProps>`
 
   color: ${({theme, type}) =>
     type === 'positive' ? theme.colors.sucess : theme.colors.attention};
+
   margin-top: 2px;
 `;
 

@@ -1,5 +1,8 @@
 import React from 'react';
-import {HighlightCard} from '../../components/HighlightCard';
+import {
+  HighlightCard,
+  IHighlightCardProps,
+} from '../../components/HighlightCard';
 import {
   TransactionCard,
   TransactionCardProps,
@@ -21,12 +24,42 @@ import {
   TransactionList,
 } from './styles';
 
+export interface DataCardProps extends IHighlightCardProps {
+  id: any;
+}
 export interface DataListProps extends TransactionCardProps {
   id: any;
 }
 
 export function Dashboard() {
-  const data: DataListProps[] = [
+  const dataCard: DataCardProps[] = [
+    {
+      id: '1',
+      typeIcon: 'arrow-up-circle',
+      type: 'positive',
+      title: 'Entradas',
+      amount: '17.400,00',
+      lastTransaction: 'Última entrada dia 13 de Abril',
+    },
+    {
+      id: '2',
+      typeIcon: 'arrow-down-circle',
+      type: 'negative',
+      title: 'Saídas',
+      amount: '1.259,00',
+      lastTransaction: 'Última saída dia 03 de Abril',
+    },
+    {
+      id: '3',
+      typeIcon: 'dollar-sign',
+      type: 'positive',
+      title: 'Total',
+      amount: '16.141,00',
+      lastTransaction: '01 à 16 de Abril',
+    },
+  ];
+
+  const dataList: DataListProps[] = [
     {
       id: '1',
       type: 'positive',
@@ -61,6 +94,7 @@ export function Dashboard() {
       date: '19/06/2022',
     },
   ];
+
   return (
     <Container>
       <Header>
@@ -80,30 +114,15 @@ export function Dashboard() {
           <Icon name="power" />
         </UserWrapper>
       </Header>
-      <HighlightCards>
-        <HighlightCard
-          type="arrow-up-circle"
-          title="Entradas"
-          amount="17.400,00"
-          lastTransaction="Última entrada dia 13 de Abril"
-        />
-        <HighlightCard
-          type="arrow-down-circle"
-          title="Saídas"
-          amount="1.259,00"
-          lastTransaction="Última saída dia 03 de Abril"
-        />
-        <HighlightCard
-          type="dollar-sign"
-          title="Total"
-          amount="16.141,00"
-          lastTransaction="01 à 16 de Abril"
-        />
-      </HighlightCards>
+      <HighlightCards
+        data={dataCard}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => <HighlightCard data={item} />}
+      />
       <Transactions>
         <Title>Listagem</Title>
         <TransactionList
-          data={data}
+          data={dataList}
           keyExtractor={item => item.id}
           renderItem={({item}) => <TransactionCard data={item} />}
         />
