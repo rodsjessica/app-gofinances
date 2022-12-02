@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
   HighlightCard,
   IHighlightCardProps,
@@ -32,6 +34,30 @@ export interface DataListProps extends TransactionCardProps {
 }
 
 export function Dashboard() {
+  const [data, setData] = useState<DataListProps[]>([]);
+
+  async function loadTransactions() {
+    const collectionKey = '@gofinances:transactions';
+    const response = await AsyncStorage.getItem(collectionKey);
+    const transactions = response ? JSON.parse(response) : [];
+
+    const transactionsFormatted: DataListProps[] = transactions.map(
+      (item: DataListProps) => {
+        const amount = Number(item.amount).toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        });
+        const data = new Date(item.date);
+      },
+    );
+
+    // setData(transactionsFormatted);
+  }
+
+  useEffect(() => {
+    loadTransactions();
+  }, []);
+
   const dataCard: DataCardProps[] = [
     {
       id: '1',
@@ -59,41 +85,41 @@ export function Dashboard() {
     },
   ];
 
-  const dataList: DataListProps[] = [
-    {
-      id: '1',
-      type: 'positive',
-      title: 'Desenvolvimento de site',
-      amount: 'R$ 12.000,00',
-      category: {
-        name: 'Vendas',
-        icon: 'dollar-sign',
-      },
-      date: '20/06/2022',
-    },
-    {
-      id: '2',
-      type: 'negative',
-      title: 'Hamburgueria Nina',
-      amount: 'R$ 59,00',
-      category: {
-        name: 'Alimentação',
-        icon: 'coffee',
-      },
-      date: '18/06/2022',
-    },
-    {
-      id: '3',
-      type: 'negative',
-      title: 'ALuguel do Apartamento',
-      amount: 'R$ 1.200,00',
-      category: {
-        name: 'Casa',
-        icon: 'shopping-bag',
-      },
-      date: '19/06/2022',
-    },
-  ];
+  // const dataList: DataListProps[] = [
+  //   {
+  //     id: '1',
+  //     type: 'positive',
+  //     title: 'Desenvolvimento de site',
+  //     amount: 'R$ 12.000,00',
+  //     category: {
+  //       name: 'Vendas',
+  //       icon: 'dollar-sign',
+  //     },
+  //     date: '20/06/2022',
+  //   },
+  //   {
+  //     id: '2',
+  //     type: 'negative',
+  //     title: 'Hamburgueria Nina',
+  //     amount: 'R$ 59,00',
+  //     category: {
+  //       name: 'Alimentação',
+  //       icon: 'coffee',
+  //     },
+  //     date: '18/06/2022',
+  //   },
+  //   {
+  //     id: '3',
+  //     type: 'negative',
+  //     title: 'ALuguel do Apartamento',
+  //     amount: 'R$ 1.200,00',
+  //     category: {
+  //       name: 'Casa',
+  //       icon: 'shopping-bag',
+  //     },
+  //     date: '19/06/2022',
+  //   },
+  // ];
 
   return (
     <Container>
@@ -122,7 +148,7 @@ export function Dashboard() {
       <Transactions>
         <Title>Listagem</Title>
         <TransactionList
-          data={dataList}
+          data={data}
           keyExtractor={item => item.id}
           renderItem={({item}) => <TransactionCard data={item} />}
         />
