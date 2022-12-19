@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useFocusEffect} from '@react-navigation/native';
 
 import {
   HighlightCard,
@@ -43,20 +44,42 @@ export function Dashboard() {
 
     const transactionsFormatted: DataListProps[] = transactions.map(
       (item: DataListProps) => {
-        const amount = Number(item.amount).toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
-        });
-        const data = new Date(item.date);
+        console.log(item.category);
+        return {
+          id: item.id,
+          name: item.name,
+          amount: Number(item.amount).toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+          }),
+          type: item.type,
+          category: item.category,
+          date: Intl.DateTimeFormat('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit',
+          }).format(new Date(item.date)),
+        };
       },
     );
+    ('');
 
-    // setData(transactionsFormatted);
+    setData(transactionsFormatted);
+    console.log(transactionsFormatted);
   }
 
   useEffect(() => {
     loadTransactions();
+
+    // const collectionKey = '@gofinances:transactions';
+    // AsyncStorage.removeItem(collectionKey);
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadTransactions();
+    }, []),
+  );
 
   const dataCard: DataCardProps[] = [
     {
@@ -85,41 +108,41 @@ export function Dashboard() {
     },
   ];
 
-  // const dataList: DataListProps[] = [
-  //   {
-  //     id: '1',
-  //     type: 'positive',
-  //     title: 'Desenvolvimento de site',
-  //     amount: 'R$ 12.000,00',
-  //     category: {
-  //       name: 'Vendas',
-  //       icon: 'dollar-sign',
-  //     },
-  //     date: '20/06/2022',
-  //   },
-  //   {
-  //     id: '2',
-  //     type: 'negative',
-  //     title: 'Hamburgueria Nina',
-  //     amount: 'R$ 59,00',
-  //     category: {
-  //       name: 'Alimentação',
-  //       icon: 'coffee',
-  //     },
-  //     date: '18/06/2022',
-  //   },
-  //   {
-  //     id: '3',
-  //     type: 'negative',
-  //     title: 'ALuguel do Apartamento',
-  //     amount: 'R$ 1.200,00',
-  //     category: {
-  //       name: 'Casa',
-  //       icon: 'shopping-bag',
-  //     },
-  //     date: '19/06/2022',
-  //   },
-  // ];
+  const dataList: DataListProps[] = [
+    {
+      id: '1',
+      type: 'positive',
+      title: 'Desenvolvimento de site',
+      amount: 'R$ 12.000,00',
+      category: {
+        name: 'Vendas',
+        icon: 'dollar-sign',
+      },
+      date: '20/06/2022',
+    },
+    {
+      id: '2',
+      type: 'negative',
+      title: 'Hamburgueria Nina',
+      amount: 'R$ 59,00',
+      category: {
+        name: 'Alimentação',
+        icon: 'coffee',
+      },
+      date: '18/06/2022',
+    },
+    {
+      id: '3',
+      type: 'negative',
+      title: 'ALuguel do Apartamento',
+      amount: 'R$ 1.200,00',
+      category: {
+        name: 'Casa',
+        icon: 'shopping-bag',
+      },
+      date: '19/06/2022',
+    },
+  ];
 
   return (
     <Container>

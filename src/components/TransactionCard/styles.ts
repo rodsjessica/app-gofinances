@@ -10,6 +10,8 @@ export const Container = styled.View`
   border-radius: 5px;
 
   padding: 17px 24px;
+
+  margin-bottom: 15px;
 `;
 
 export const Title = styled.Text`
