@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useFocusEffect} from '@react-navigation/native';
+
 import {
   HighlightCard,
   IHighlightCardProps,
@@ -32,6 +35,52 @@ export interface DataListProps extends TransactionCardProps {
 }
 
 export function Dashboard() {
+  const [data, setData] = useState<DataListProps[]>([]);
+
+  async function loadTransactions() {
+    const collectionKey = '@gofinances:transactions';
+    const response = await AsyncStorage.getItem(collectionKey);
+    const transactions = response ? JSON.parse(response) : [];
+
+    const transactionsFormatted: DataListProps[] = transactions.map(
+      (item: DataListProps) => {
+        console.log(item.category);
+        return {
+          id: item.id,
+          name: item.name,
+          amount: Number(item.amount).toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+          }),
+          type: item.type,
+          category: item.category,
+          date: Intl.DateTimeFormat('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit',
+          }).format(new Date(item.date)),
+        };
+      },
+    );
+    ('');
+
+    setData(transactionsFormatted);
+    console.log(transactionsFormatted);
+  }
+
+  useEffect(() => {
+    loadTransactions();
+
+    // const collectionKey = '@gofinances:transactions';
+    // AsyncStorage.removeItem(collectionKey);
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadTransactions();
+    }, []),
+  );
+
   const dataCard: DataCardProps[] = [
     {
       id: '1',
@@ -122,7 +171,7 @@ export function Dashboard() {
       <Transactions>
         <Title>Listagem</Title>
         <TransactionList
-          data={dataList}
+          data={data}
           keyExtractor={item => item.id}
           renderItem={({item}) => <TransactionCard data={item} />}
         />
