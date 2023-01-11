@@ -11,29 +11,35 @@ import {
 } from './styles';
 
 export interface IHighlightCardProps {
-  typeIcon: string;
   type: 'positive' | 'negative';
   title: string;
   amount: string;
   lastTransaction: string;
 }
 
-export interface Props {
-  data: IHighlightCardProps;
-}
+const icon = {
+  positive: 'arrow-up-circle',
+  negative: 'arrow-down-circle',
+  total: 'dollar-sign',
+};
 
-export function HighlightCard({data}: Props) {
+export function HighlightCard({
+  type,
+  title,
+  amount,
+  lastTransaction,
+}: IHighlightCardProps) {
   return (
     <Container>
       <Header>
-        <Title>{data.title}</Title>
-        <Icon name={data.typeIcon} type={data.type} />
+        <Title>{title}</Title>
+        <Icon name={icon[type]} type={type} />
       </Header>
 
       <Footer>
-        <Amount>{data.amount}</Amount>
-        <LastTransaction>{data.lastTransaction}</LastTransaction>
+        <Amount>{amount}</Amount>
+        <LastTransaction>{lastTransaction}</LastTransaction>
       </Footer>
     </Container>
   );
-};
+}

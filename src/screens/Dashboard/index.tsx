@@ -1,6 +1,8 @@
 import React, {useCallback, useEffect, useState} from 'react';
+import {ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFocusEffect} from '@react-navigation/native';
+import {useTheme} from 'styled-components';
 
 import {
   HighlightCard,
@@ -25,6 +27,7 @@ import {
   Transactions,
   Title,
   TransactionList,
+  LoadContainer,
 } from './styles';
 
 export interface DataCardProps extends IHighlightCardProps {
@@ -34,17 +37,40 @@ export interface DataListProps extends TransactionCardProps {
   id: any;
 }
 
+interface HighlightProps {
+  amount: string;
+}
+interface HighlightData {
+  entries: HighlightProps;
+  expensive: HighlightProps;
+  total: HighlightProps;
+}
+
 export function Dashboard() {
-  const [data, setData] = useState<DataListProps[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [transactionsData, setTransactionsData] = useState<DataListProps[]>([]);
+  const [highlightData, setHighlightData] = useState<HighlightData>(
+    {} as HighlightData,
+  );
+
+  const theme = useTheme();
 
   async function loadTransactions() {
     const collectionKey = '@gofinances:transactions';
     const response = await AsyncStorage.getItem(collectionKey);
     const transactions = response ? JSON.parse(response) : [];
 
+    let entriesTotal = 0;
+    let expensiveTotal = 0;
+
     const transactionsFormatted: DataListProps[] = transactions.map(
       (item: DataListProps) => {
-        console.log(item.category);
+        if (item.type === 'positive') {
+          entriesTotal += Number(item.amount);
+        } else {
+          expensiveTotal += Number(item.amount);
+        }
+
         return {
           id: item.id,
           name: item.name,
@@ -64,15 +90,40 @@ export function Dashboard() {
     );
     ('');
 
-    setData(transactionsFormatted);
-    console.log(transactionsFormatted);
+    setTransactionsData(transactionsFormatted);
+
+    const total = entriesTotal - expensiveTotal;
+
+    setHighlightData({
+      entries: {
+        amount: entriesTotal.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        }),
+      },
+      expensive: {
+        amount: expensiveTotal.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        }),
+      },
+      total: {
+        amount: total.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        }),
+      },
+    });
+
+    setIsLoading(false);
+    console.log('---------------->', highlightData);
   }
 
   useEffect(() => {
     loadTransactions();
 
-    // const collectionKey = '@gofinances:transactions';
-    // AsyncStorage.removeItem(collectionKey);
+    const collectionKey = '@gofinances:transactions';
+    AsyncStorage.removeItem(collectionKey);
   }, []);
 
   useFocusEffect(
@@ -81,101 +132,61 @@ export function Dashboard() {
     }, []),
   );
 
-  const dataCard: DataCardProps[] = [
-    {
-      id: '1',
-      typeIcon: 'arrow-up-circle',
-      type: 'positive',
-      title: 'Entradas',
-      amount: '17.400,00',
-      lastTransaction: 'Última entrada dia 13 de Abril',
-    },
-    {
-      id: '2',
-      typeIcon: 'arrow-down-circle',
-      type: 'negative',
-      title: 'Saídas',
-      amount: '1.259,00',
-      lastTransaction: 'Última saída dia 03 de Abril',
-    },
-    {
-      id: '3',
-      typeIcon: 'dollar-sign',
-      type: 'positive',
-      title: 'Total',
-      amount: '16.141,00',
-      lastTransaction: '01 à 16 de Abril',
-    },
-  ];
-
-  const dataList: DataListProps[] = [
-    {
-      id: '1',
-      type: 'positive',
-      title: 'Desenvolvimento de site',
-      amount: 'R$ 12.000,00',
-      category: {
-        name: 'Vendas',
-        icon: 'dollar-sign',
-      },
-      date: '20/06/2022',
-    },
-    {
-      id: '2',
-      type: 'negative',
-      title: 'Hamburgueria Nina',
-      amount: 'R$ 59,00',
-      category: {
-        name: 'Alimentação',
-        icon: 'coffee',
-      },
-      date: '18/06/2022',
-    },
-    {
-      id: '3',
-      type: 'negative',
-      title: 'ALuguel do Apartamento',
-      amount: 'R$ 1.200,00',
-      category: {
-        name: 'Casa',
-        icon: 'shopping-bag',
-      },
-      date: '19/06/2022',
-    },
-  ];
-
   return (
     <Container>
-      <Header>
-        <UserWrapper>
-          <UserInfo>
-            <Photo
-              source={{
-                uri: 'https://avatars.githubusercontent.com/u/71798290?v=4',
-              }}
-            />
-            <User>
-              <UserGreeting>Olá,</UserGreeting>
-              <UserName>Jéssica</UserName>
-            </User>
-          </UserInfo>
+      {isLoading === true ? (
+        <LoadContainer>
+          <ActivityIndicator color={theme.colors.primary} size="large" />
+        </LoadContainer>
+      ) : (
+        <>
+          <Header>
+            <UserWrapper>
+              <UserInfo>
+                <Photo
+                  source={{
+                    uri: 'https://avatars.githubusercontent.com/u/71798290?v=4',
+                  }}
+                />
+                <User>
+                  <UserGreeting>Olá,</UserGreeting>
+                  <UserName>Jéssica</UserName>
+                </User>
+              </UserInfo>
 
-          <Icon name="power" />
-        </UserWrapper>
-      </Header>
-      <HighlightCards
-        data={dataCard}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => <HighlightCard data={item} />}
-      />
-      <Transactions>
-        <Title>Listagem</Title>
-        <TransactionList
-          data={data}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => <TransactionCard data={item} />}
-        />
-      </Transactions>
+              <Icon name="power" />
+            </UserWrapper>
+          </Header>
+          <HighlightCards>
+            <HighlightCard
+              type="positive"
+              title="Entradas"
+              amount={highlightData.entries.amount}
+              lastTransaction="Última entrada dia 13 de Abril"
+            />
+            <HighlightCard
+              type="negative"
+              title="Saídas"
+              amount={highlightData.expensive.amount}
+              lastTransaction="Última saída dia 03 de Abril"
+            />
+            <HighlightCard
+              type="positive"
+              title="Total"
+              amount={highlightData.total.amount}
+              lastTransaction="01 à 16 de Abril"
+            />
+          </HighlightCards>
+          <Transactions>
+            <Title>Listagem</Title>
+            <TransactionList
+              data={transactionsData}
+              keyExtractor={item => item.id}
+              renderItem={({item}) => <TransactionCard data={item} />}
+            />
+          </Transactions>
+        </>
+      )}
     </Container>
   );
 }
