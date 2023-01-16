@@ -6,6 +6,7 @@ import Feather from 'react-native-vector-icons/Feather';
 
 import {Dashboard} from '../screens/Dashboard';
 import {Register} from '../screens/Register';
+import {Resume} from '../screens/Resume';
 
 const Tab = createBottomTabNavigator();
 
@@ -44,7 +45,7 @@ export const AppRoutes = () => {
       />
       <Tab.Screen
         name="Resumo"
-        component={Register}
+        component={Resume}
         options={{
           tabBarIcon: ({size, color}) => (
             <Feather name="pie-chart" size={size} color={color} />
