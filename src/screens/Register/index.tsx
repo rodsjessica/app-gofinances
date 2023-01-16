@@ -111,7 +111,7 @@ export function Register() {
   useEffect(() => {
     async function loadData() {
       const data = await AsyncStorage.getItem(collectionKey);
-      console.log(JSON.parse(data!));
+      // console.log(JSON.parse(data!));
     }
     loadData();
 
