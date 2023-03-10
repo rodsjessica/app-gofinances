@@ -60,6 +60,8 @@ export function Resume() {
         const percent = (categorySum / expensivesTotal * 100);
         const percentFormatted = `${percent.toFixed(0)}%`;
 
+        console.log('------->', percentFormatted)
+
         totalByCategory.push({
           key: category.key,
           name: category.name,
