@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {HistoryCard} from '../../components/HistoryCard';
-import {Container, Header, Title, Content} from './styles';
-import {categories} from '../../utils/categories';
+import { HistoryCard } from '../../components/HistoryCard';
+import { Container, Header, Title, Content } from './styles';
+import { categories } from '../../utils/categories';
 
 interface TransactionData {
   type: 'positive' | 'negative';
@@ -18,6 +18,8 @@ interface CategoryData {
   name: string;
   total: string;
   color: string;
+  percentFormatted: string;
+  percent: number;
 }
 
 export function Resume() {
@@ -34,6 +36,10 @@ export function Resume() {
       (item: TransactionData) => item.type === 'negative',
     );
 
+    const expensivesTotal = expensives.reduce((accumulator: number, expensive: TransactionData) => {
+      return accumulator + Number(expensive.amount)
+    }, 0)
+
     const totalByCategory: CategoryData[] = [];
 
     categories.forEach(category => {
@@ -45,19 +51,26 @@ export function Resume() {
         }
       });
 
-      const total = categorySum.toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-      });
-
       if (categorySum > 0) {
+        const total = categorySum.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        });
+
+        const percent = (categorySum / expensivesTotal * 100);
+        const percentFormatted = `${percent.toFixed(0)}%`;
+
         totalByCategory.push({
           key: category.key,
           name: category.name,
           color: category.color,
           total,
+          percent,
+          percentFormatted,
         });
+
       }
+
     });
     setTotalByCategories(totalByCategory);
   }
